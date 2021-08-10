@@ -31,6 +31,9 @@ public class ChatServer {
         System.err.println("Sending '" + line + "' to : " + clients);
         synchronized(clients){
             for(ClientHandler cl : clients){
+                if(sender == cl){
+                    continue;
+                }
                 cl.send(sender + ": " + line);
             }
         }
