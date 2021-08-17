@@ -31,6 +31,7 @@ public class ChatServer {
         System.err.println("Sending '" + line + "' to : " + clients);
         synchronized(clients){
             for(ClientHandler cl : clients){
+                //Dont send the message to the client that sent the message
                 if(sender == cl){
                     continue;
                 }
