@@ -1,6 +1,6 @@
 import java.io.*;
-import java.net.*;
 import java.util.*;
+import javax.net.ssl.*;
 
 public class ChatServer {
     private static List<ClientHandler> clients = new LinkedList<ClientHandler>();
@@ -15,10 +15,14 @@ public class ChatServer {
     }
 
     private void startServer(int port) throws Exception{
-        ServerSocket serverSocket = new ServerSocket(port);
+        //ServerSocket serverSocket = new ServerSocket(port);
+        SSLServerSocketFactory factory = 
+            (SSLServerSocketFactory)SSLServerSocketFactory.getDefault();
+        SSLServerSocket sslServersocket = 
+            (SSLServerSocket)factory.createServerSocket(port);
         System.err.println("ChatServer started");
         while(true){
-            ClientHandler ch = new ClientHandler(serverSocket.accept());
+            ClientHandler ch = new ClientHandler((SSLSocket)sslServersocket.accept());
             synchronized(clients){
                 clients.add(ch);
             }
@@ -47,7 +51,7 @@ public class ChatServer {
         private String id;
         private static int count = 0;
 
-        public ClientHandler(Socket socket) throws Exception{
+        public ClientHandler(SSLSocket socket) throws Exception{
             input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             output = new PrintWriter(socket.getOutputStream(),true);
             id = "Client_" + ++count;

@@ -1,4 +1,5 @@
-import java.net.*;
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
 
 public class Client {
 
@@ -6,10 +7,13 @@ public class Client {
         try{
             int port = Integer.parseInt(args[0]);
             String host = args[1];
-            Socket socket = new Socket(host, port);
+            //Socket socket = new Socket(host, port);
+            SSLSocketFactory factory = 
+                (SSLSocketFactory) SSLSocketFactory.getDefault();
+            SSLSocket sslSocket = (SSLSocket) factory.createSocket(host,port);
             System.err.println("Connected to " + host + " on port" + port);
-            new ReadWriteThread(System.in, socket.getOutputStream(),"").start();
-            new ReadWriteThread(socket.getInputStream(), System.out,"--> ").start();
+            new ReadWriteThread(System.in, sslSocket.getOutputStream(),"").start();
+            new ReadWriteThread(sslSocket.getInputStream(), System.out,"--> ").start();
         } catch (Exception e){
             e.printStackTrace();
             System.err.println("Usage: java Client <port> <host>");
