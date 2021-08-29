@@ -1,5 +1,3 @@
-import java.net.*;
-
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 
