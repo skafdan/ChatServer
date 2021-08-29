@@ -7,7 +7,6 @@ public class Client {
         try{
             int port = Integer.parseInt(args[0]);
             String host = args[1];
-            //Socket socket = new Socket(host, port);
             SSLSocketFactory factory = 
                 (SSLSocketFactory) SSLSocketFactory.getDefault();
             SSLSocket sslSocket = (SSLSocket) factory.createSocket(host,port);

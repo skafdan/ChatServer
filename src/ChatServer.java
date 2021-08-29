@@ -15,7 +15,6 @@ public class ChatServer {
     }
 
     private void startServer(int port) throws Exception{
-        //ServerSocket serverSocket = new ServerSocket(port);
         SSLServerSocketFactory factory = 
             (SSLServerSocketFactory)SSLServerSocketFactory.getDefault();
         SSLServerSocket sslServersocket = 
