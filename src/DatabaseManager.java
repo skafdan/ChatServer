@@ -2,8 +2,8 @@ import java.sql.*;
 import java.io.*;
 import java.util.*;
 
-public class databaseManager {
-    public databaseManager(){
+public class DatabaseManager {
+    public DatabaseManager(){
         try{
             Properties prop = new Properties();
             prop.load(new FileInputStream("data.properties"));

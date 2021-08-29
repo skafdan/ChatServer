@@ -49,6 +49,7 @@ public class ChatServer {
         private PrintWriter output;
         private String id;
         private static int count = 0;
+        public DatabaseManager dbm;
 
         public ClientHandler(SSLSocket socket) throws Exception{
             input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
