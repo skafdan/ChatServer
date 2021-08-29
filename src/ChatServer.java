@@ -55,6 +55,7 @@ public class ChatServer {
             input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             output = new PrintWriter(socket.getOutputStream(),true);
             id = "Client_" + ++count;
+            dbm = new DatabaseManager();
         }
 
         public void send(String line){
