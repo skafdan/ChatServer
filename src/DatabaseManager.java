@@ -3,6 +3,8 @@ import java.io.*;
 import java.util.*;
 
 public class DatabaseManager {
+    //MariaDB
+    //https://docs.cs.cf.ac.uk/notes/accessing-mysql-with-java/
     public DatabaseManager(){
         try{
             Properties prop = new Properties();
