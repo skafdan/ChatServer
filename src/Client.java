@@ -9,12 +9,19 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 
+import java.io.InputStream;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+
 public class Client {
 
     public static void main(String[] args){
         try{
             int port = Integer.parseInt(args[0]);
             String host = args[1];
+            DownloadKey(host);
             SSLSocketFactory factory = SSLFactoryBootstrapper();
             SSLSocket sslSocket = (SSLSocket) factory.createSocket(host,port);
             System.err.println("Connected to " + host + " on port" + port);
@@ -25,7 +32,13 @@ public class Client {
             System.err.println("Usage: java Client <port> <host>");
         }
     }
-
+    public static void DownloadKey(String host) throws Exception{
+        String hostUrl = "http://" + host + "/yourKEYSTORE";
+        URL url = new URL(hostUrl);
+        try(InputStream in = url.openStream()){
+            Files.copy(in, Paths.get("yourKEYSTORE"));
+        }
+    }
     public static SSLSocketFactory SSLFactoryBootstrapper(){
         try{
             final char[] password = "quack1nce4^".toCharArray();
