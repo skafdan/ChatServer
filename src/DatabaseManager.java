@@ -3,26 +3,53 @@ import java.io.*;
 import java.util.*;
 
 public class DatabaseManager {
+    private Connection con;
+    private String host;
+    private String user;
+    private String pass;
     //MariaDB
     //https://docs.cs.cf.ac.uk/notes/accessing-mysql-with-java/
     public DatabaseManager(){
         try{
             Properties prop = new Properties();
             prop.load(new FileInputStream("data.properties"));
-            String host = prop.getProperty("host");
-            String user = prop.getProperty("username");
-            String pass = prop.getProperty("password");
-            Class.forName("org.mariadb.jdbc.Driver");
+            host = prop.getProperty("host");
+            user = prop.getProperty("username");
+            pass = prop.getProperty("password");
 
-            Connection con=DriverManager.getConnection(host,user,pass);
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("Select * from User");
-            while(rs.next()){
-                System.err.println(rs.getInt(1)+" "+rs.getString(2));
-                con.close();
-            }
+            Class.forName("org.mariadb.jdbc.Driver");
         }catch(Exception e){
             e.printStackTrace();
         }
     } 
+
+    //Search for a username
+    public String findUser(String queriedUser){
+        try{
+            con=DriverManager.getConnection(host,user,pass);
+            PreparedStatement pStmt = con.prepareStatement(
+                "SELECT * from User WHERE username=?");
+            pStmt.setString(1, queriedUser);
+
+            ResultSet rs = pStmt.executeQuery();
+            if (rs.next()){
+                con.close();
+                return queriedUser;
+            } else{
+                return null;
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    //Close the connection to the database
+    public void close(){
+        try{
+            con.close(); 
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
 }
