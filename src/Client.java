@@ -16,7 +16,8 @@ import java.nio.file.Paths;
 
 
 public class Client {
-
+    //SSL
+    //https://stackoverflow.com/questions/13874387/create-app-with-sslsocket-java
     public static void main(String[] args){
         try{
             int port = Integer.parseInt(args[0]);

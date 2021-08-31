@@ -7,7 +7,8 @@ public class DatabaseManager {
     private String host;
     private String user;
     private String pass;
-
+    //MariaDB
+    //https://docs.cs.cf.ac.uk/notes/accessing-mysql-with-java/
     public DatabaseManager(){
         try{
             Properties prop = new Properties();
