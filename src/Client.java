@@ -32,6 +32,7 @@ public class Client {
             System.err.println("Usage: java Client <port> <host>");
         }
     }
+    //https://www.techiedelight.com/download-file-from-url-java/
     public static void DownloadKey(String host) throws Exception{
         String hostUrl = "http://" + host + "/yourKEYSTORE";
         URL url = new URL(hostUrl);
