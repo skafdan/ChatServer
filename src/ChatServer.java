@@ -68,9 +68,7 @@ public class ChatServer {
         public void run(){
             try{
                 System.err.println("Accepted connection on port " + this);
-                send("Enter user:");
-                String user = input.readLine();
-                authenticate(user);
+                authenticate();
                 send("Welcome ! you are " + this);
                 String line;
                 while((line = input.readLine()) != null){
@@ -85,9 +83,17 @@ public class ChatServer {
                 System.err.println(this + " closed connection");
             }
         }
-        public void authenticate(String user) throws Exception{
-            if(!user.equals("dan")){
+        public void authenticate() throws Exception{
+            send("Enter user:");
+            String user = "";
+            int attempts = 0;
+            while(!(user = input.readLine()).equals("dan") && attempts < 5){
                 send("Invalid Credentials. Connection refused");
+                send("Enter user:");
+                attempts++;
+            }
+            if(attempts >= 5 ){
+                send("Connection closed, restart client to retry");
                 throw new InvalidCredentials("Invalid credentials");
             }
         }
