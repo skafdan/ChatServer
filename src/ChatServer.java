@@ -84,19 +84,25 @@ public class ChatServer {
             }
         }
         public void authenticate() throws Exception{
-            send("Enter user:");
             String user = "";
             int attempts = 0;
-            while(!(user = input.readLine()).equals("dan") && attempts < 5){
-                send("Invalid Credentials. Connection refused");
-                send("Enter user:");
-                attempts++;
+            while(attempts <= 4 ){
+                send("Enter User:");
+                user = input.readLine();
+                if(dbm.findUser(user) == null){
+                    send("username or password wrong");
+                    attempts++;
+                }else if(dbm.findUser(user) == user){
+                    break;
+                }
             }
-            if(attempts >= 5 ){
-                send("Connection closed, restart client to retry");
+            if(attempts >= 5){
+                dbm.close();
+                send("To many invalid attempts " +
+                    "Connection closed, restart client to retry");
                 throw new InvalidCredentials("Invalid credentials");
             }
+            send("welcome " + dbm.findUser(user));
         }
     }
 }
-
