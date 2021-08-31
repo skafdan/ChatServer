@@ -23,4 +23,7 @@ public class DatabaseManager {
             e.printStackTrace();
         }
     } 
+    public String findUser(String queriedUser){
+        return null;
+    }
 }
