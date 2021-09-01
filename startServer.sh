@@ -8,7 +8,7 @@ done
 #Ensure ClassPATH set
 if [ -z "$CLASSPATH" ]
 then
-    export CLASSPATH="./:/usr/share/java/mariadb-jdbc/mariadb-java-client.jar"
+    export CLASSPATH="./:/usr/share/java/mariadb-jdbc/mariadb-java-client-2.7.3.jar"
 fi
 
 #Check key is created
