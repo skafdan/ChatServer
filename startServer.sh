@@ -19,7 +19,7 @@ then
 fi
 
 #Copy file to http server
-cp ./yourKEYSTORE /var/www/html/
+cp yourKEYSTORE /var/www/html/
 
 #Starting the server
 if [ -z "$1" ]
