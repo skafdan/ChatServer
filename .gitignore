@@ -24,3 +24,6 @@ hs_err_pid*
 
 #properties
 *.properties
+
+#SSLCert
+yourKEYSTORE
