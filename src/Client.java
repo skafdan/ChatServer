@@ -22,7 +22,7 @@ public class Client {
         try{
             int port = Integer.parseInt(args[0]);
             String host = args[1];
-            //DownloadKey(host);
+            DownloadKey(host);
             SSLSocketFactory factory = SSLFactoryBootstrapper();
             SSLSocket sslSocket = (SSLSocket) factory.createSocket(host,port);
             System.err.println("Connected to " + host + " on port" + port);
