@@ -7,6 +7,7 @@ public class DatabaseManager {
     private String host;
     private String user;
     private String pass;
+
     //MariaDB
     //https://docs.cs.cf.ac.uk/notes/accessing-mysql-with-java/
     public DatabaseManager(){
@@ -28,14 +29,12 @@ public class DatabaseManager {
     //Search for a username
     public String findUser(String queriedUser){
         try{
-            //con=DriverManager.getConnection(host,user,pass);
             PreparedStatement pStmt = con.prepareStatement(
                 "SELECT * from User WHERE username=?");
             pStmt.setString(1, queriedUser);
 
             ResultSet rs = pStmt.executeQuery();
             if (rs.next()){
-                //con.close();
                 return queriedUser;
             } else{
                 return null;
@@ -46,6 +45,7 @@ public class DatabaseManager {
         }
     }
 
+    //Check passed password equals stored password in database
     public boolean checkPasswd(String user, String attmPasswd){
         try{
             PreparedStatement pStmt = con.prepareStatement(
@@ -53,8 +53,11 @@ public class DatabaseManager {
             pStmt.setString(1, user);
             ResultSet rs = pStmt.executeQuery();
             if(rs.next()){
-                System.out.println("Retrieved password> " + rs.getString(1));
-                return true;
+                if(rs.getString(1).equals(attmPasswd)){
+                    return true;
+                }else {
+                    return false;
+                }
             }else {
                 return false;
             }
@@ -63,7 +66,8 @@ public class DatabaseManager {
             return false;
         }
     }
-    //Open connection to the databse
+
+    //Open connection to the database
     public void open(){
         try{
             con=DriverManager.getConnection(host,user,pass);
@@ -71,6 +75,7 @@ public class DatabaseManager {
             e.printStackTrace();
         }
     }
+
     //Close the connection to the database
     public void close(){
         try{
