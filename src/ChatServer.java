@@ -93,6 +93,7 @@ public class ChatServer {
                     send("username or password wrong");
                     attempts++;
                 }else if(dbm.findUser(user) == user){
+                    dbm.checkPasswd(user, "null");
                     break;
                 }
             }
