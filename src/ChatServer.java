@@ -85,15 +85,19 @@ public class ChatServer {
         }
         public void authenticate() throws Exception{
             String user = "";
+            String password = "";
             int attempts = 0;
             while(attempts <= 4 ){
                 send("Enter User:");
                 user = input.readLine();
-                if(dbm.findUser(user) == null){
-                    send("username or password wrong");
+                send("Enter Password:");
+                password = input.readLine();
+                if(dbm.findUser(user) != null && 
+                    dbm.checkPasswd(user,password)){
+                        break;
+                }else {
+                    send("Username and password dont match");
                     attempts++;
-                }else if(dbm.findUser(user) == user){
-                    break;
                 }
             }
             if(attempts >= 5){
