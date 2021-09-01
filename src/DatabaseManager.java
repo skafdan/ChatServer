@@ -53,7 +53,7 @@ public class DatabaseManager {
             pStmt.setString(1, user);
             ResultSet rs = pStmt.executeQuery();
             if(rs.next()){
-                System.out.println("Retrived password>" + rs.getString(1));
+                System.out.println("Retrieved password> " + rs.getString(1));
                 return true;
             }else {
                 return false;
