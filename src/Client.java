@@ -29,7 +29,15 @@ public class Client {
             new ReadWriteThread(System.in, sslSocket.getOutputStream(),"").start();
             new ReadWriteThread(sslSocket.getInputStream(), System.out,"--> ").start();
         } catch (Exception e){
-            e.printStackTrace();
+            if(e instanceof java.net.ConnectException ){
+                System.err.println("Cant connect to address");
+            }else if(e instanceof java.lang.NumberFormatException
+            || e instanceof java.lang.ArrayIndexOutOfBoundsException ){
+                System.err.println("Usage: java -jar Client.jar <port> <host>");
+            }else{
+                e.printStackTrace();
+            }
+                System.exit(1); 
         }
     }
     //https://www.techiedelight.com/download-file-from-url-java/
@@ -44,6 +52,10 @@ public class Client {
             InputStream in = url.openStream();
             Files.copy(in, Paths.get("yourKEYSTORE"));
         }catch(Exception e){
+            if(e instanceof java.net.ConnectException){
+                System.err.println("Cant download key from server");
+                System.exit(1);
+            }
            e.printStackTrace(); 
         }
     }
