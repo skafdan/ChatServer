@@ -30,15 +30,21 @@ public class Client {
             new ReadWriteThread(sslSocket.getInputStream(), System.out,"--> ").start();
         } catch (Exception e){
             e.printStackTrace();
-            System.err.println("Usage: java Client <port> <host>");
         }
     }
     //https://www.techiedelight.com/download-file-from-url-java/
     public static void DownloadKey(String host) throws Exception{
-        String hostUrl = "http://" + host + "/yourKEYSTORE";
-        URL url = new URL(hostUrl);
-        try(InputStream in = url.openStream()){
+        try{
+            File file = new File("./yourKEYSTORE");
+            if(file.exists()){
+               file.delete(); 
+            }
+            String hostUrl = "http://" + host + "/yourKEYSTORE";
+            URL url = new URL(hostUrl);
+            InputStream in = url.openStream();
             Files.copy(in, Paths.get("yourKEYSTORE"));
+        }catch(Exception e){
+           e.printStackTrace(); 
         }
     }
     public static SSLSocketFactory SSLFactoryBootstrapper(){
