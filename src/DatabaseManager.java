@@ -80,6 +80,8 @@ public class DatabaseManager {
             return 0;
         }catch(Exception e){
             if(e instanceof java.sql.SQLNonTransientConnectionException ){
+                System.err.println("Databse connection failure");
+                e.printStackTrace();
             }else{
                 e.printStackTrace();
             }
