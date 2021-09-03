@@ -57,6 +57,9 @@ public class ChatServer {
                 output = new PrintWriter(socket.getOutputStream(),true);
                 id = "Client_" + ++count;
                 dbm = new DatabaseManager();
+                if(dbm.getConSucess() == false){
+                    send("Server cant connect to databse");
+                }
             }catch (Exception e){
                 if(e instanceof java.sql.SQLNonTransientConnectionException){
                     send("Server Error: Could not connect to database");

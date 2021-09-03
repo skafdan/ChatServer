@@ -7,6 +7,7 @@ public class DatabaseManager {
     private String host;
     private String user;
     private String pass;
+    private Boolean conSuccess;
 
     //MariaDB
     //https://docs.cs.cf.ac.uk/notes/accessing-mysql-with-java/
@@ -20,7 +21,11 @@ public class DatabaseManager {
 
             Class.forName("org.mariadb.jdbc.Driver");
             //con=DriverManager.getConnection(host,user,pass);
-            open();
+            if(open() != 0){
+                conSuccess = false;
+            }else {
+                conSuccess = true;
+            }
         }catch(Exception e){
             System.err.println("here");
             e.printStackTrace();
@@ -69,11 +74,16 @@ public class DatabaseManager {
     }
 
     //Open connection to the database
-    public void open(){
+    public int open(){
         try{
             con=DriverManager.getConnection(host,user,pass);
+            return 0;
         }catch(Exception e){
-            e.printStackTrace();
+            if(e instanceof java.sql.SQLNonTransientConnectionException ){
+            }else{
+                e.printStackTrace();
+            }
+            return 1;
         }
     }
 
@@ -84,5 +94,9 @@ public class DatabaseManager {
         }catch(Exception e){
             e.printStackTrace();
         }
+    }
+
+    public Boolean getConSucess(){
+        return conSuccess;
     }
 }
