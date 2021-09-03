@@ -46,8 +46,6 @@ public class ChatServer {
 
         private BufferedReader input;
         private PrintWriter output;
-        private String id;
-        private static int count = 0;
         private String username; 
         private DatabaseManager dbm;
 
@@ -55,7 +53,6 @@ public class ChatServer {
             try{
                 input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 output = new PrintWriter(socket.getOutputStream(),true);
-                id = "Client_" + ++count;
                 dbm = new DatabaseManager();
                 if(dbm.getConSucess() == false){
                     send("Server cant connect to database");
@@ -121,7 +118,6 @@ public class ChatServer {
                     "Connection closed, restart client to retry");
                 throw new InvalidCredentials("Invalid credentials");
             }
-            //send("welcome " + dbm.findUser(user));
             return user;
         }
     }
