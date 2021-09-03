@@ -20,14 +20,12 @@ public class DatabaseManager {
             pass = prop.getProperty("password");
 
             Class.forName("org.mariadb.jdbc.Driver");
-            //con=DriverManager.getConnection(host,user,pass);
             if(open() != 0){
                 conSuccess = false;
             }else {
                 conSuccess = true;
             }
         }catch(Exception e){
-            System.err.println("here");
             e.printStackTrace();
         }
     } 
