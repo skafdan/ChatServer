@@ -1,7 +1,6 @@
 import java.io.*;
 import java.util.*;
 import javax.net.ssl.*;
-import java.sql.*;
 
 public class ChatServer {
     private static List<ClientHandler> clients = new LinkedList<ClientHandler>();
@@ -58,7 +57,7 @@ public class ChatServer {
                 id = "Client_" + ++count;
                 dbm = new DatabaseManager();
                 if(dbm.getConSucess() == false){
-                    send("Server cant connect to databse");
+                    send("Server cant connect to database");
                 }
             }catch (Exception e){
                 if(e instanceof java.sql.SQLNonTransientConnectionException){
