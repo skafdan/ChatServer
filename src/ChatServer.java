@@ -1,6 +1,7 @@
 import java.io.*;
 import java.util.*;
 import javax.net.ssl.*;
+import java.sql.*;
 
 public class ChatServer {
     private static List<ClientHandler> clients = new LinkedList<ClientHandler>();
@@ -51,10 +52,21 @@ public class ChatServer {
         public DatabaseManager dbm;
 
         public ClientHandler(SSLSocket socket) throws Exception{
-            input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            output = new PrintWriter(socket.getOutputStream(),true);
-            id = "Client_" + ++count;
-            dbm = new DatabaseManager();
+            try{
+                input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                output = new PrintWriter(socket.getOutputStream(),true);
+                id = "Client_" + ++count;
+                dbm = new DatabaseManager();
+                if(dbm.getConSucess() == false){
+                    send("Server cant connect to databse");
+                }
+            }catch (Exception e){
+                if(e instanceof java.sql.SQLNonTransientConnectionException){
+                    send("Server Error: Could not connect to database");
+                    e.printStackTrace();
+                }
+            }
+
         }
 
         public void send(String line){
