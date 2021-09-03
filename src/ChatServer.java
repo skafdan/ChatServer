@@ -48,7 +48,8 @@ public class ChatServer {
         private PrintWriter output;
         private String id;
         private static int count = 0;
-        public DatabaseManager dbm;
+        private String username; 
+        private DatabaseManager dbm;
 
         public ClientHandler(SSLSocket socket) throws Exception{
             try{
@@ -73,14 +74,15 @@ public class ChatServer {
         }
 
         public String toString(){
-            return id;
+            return username;
         }
 
         public void run(){
             try{
                 System.err.println("Accepted connection on port " + this);
-                authenticate();
+                username = authenticate();
                 send("Welcome ! you are " + this);
+                sendAll("User \'" + username + "\' joined server",this);
                 String line;
                 while((line = input.readLine()) != null){
                     sendAll(line,this);
@@ -91,10 +93,12 @@ public class ChatServer {
                 synchronized(clients){
                     clients.remove(this);
                 }
+                sendAll("User \'" + username +"\' has left the server.", this);
                 System.err.println(this + " closed connection");
             }
         }
-        public void authenticate() throws Exception{
+
+        public String authenticate() throws Exception{
             String user = "";
             String password = "";
             int attempts = 0;
@@ -117,7 +121,8 @@ public class ChatServer {
                     "Connection closed, restart client to retry");
                 throw new InvalidCredentials("Invalid credentials");
             }
-            send("welcome " + dbm.findUser(user));
+            //send("welcome " + dbm.findUser(user));
+            return user;
         }
     }
 }
