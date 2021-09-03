@@ -22,6 +22,7 @@ public class DatabaseManager {
             //con=DriverManager.getConnection(host,user,pass);
             open();
         }catch(Exception e){
+            System.err.println("here");
             e.printStackTrace();
         }
     } 
