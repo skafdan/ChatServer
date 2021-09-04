@@ -92,7 +92,7 @@ public class DatabaseManager {
             return 0;
         }catch(Exception e){
             if(e instanceof java.sql.SQLNonTransientConnectionException ){
-                System.err.println("Databse connection failure");
+                System.err.println("Database connection failure");
                 e.printStackTrace();
             }else{
                 e.printStackTrace();
@@ -110,7 +110,7 @@ public class DatabaseManager {
         }
     }
 
-    public Boolean getConSucess(){
+    public Boolean getConSuccess(){
         return conSuccess;
     }
 }

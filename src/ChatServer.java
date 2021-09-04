@@ -54,7 +54,7 @@ public class ChatServer {
                 input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 output = new PrintWriter(socket.getOutputStream(),true);
                 dbm = new DatabaseManager();
-                if(dbm.getConSucess() == false){
+                if(dbm.getConSuccess() == false){
                     send("Server cant connect to database");
                 }
             }catch (Exception e){
