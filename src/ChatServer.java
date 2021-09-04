@@ -82,6 +82,7 @@ public class ChatServer {
                 sendAll("User \'" + username + "\' joined server",this);
                 String line;
                 while((line = input.readLine()) != null){
+                    dbm.storeMessage(line, this.toString());
                     sendAll(line,this);
                 }
             } catch (Exception e){
