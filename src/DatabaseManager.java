@@ -2,6 +2,7 @@ import java.sql.*;
 import java.io.*;
 import java.util.*;
 
+
 public class DatabaseManager {
     private Connection con;
     private String host;
@@ -34,7 +35,7 @@ public class DatabaseManager {
     public String findUser(String queriedUser){
         try{
             PreparedStatement pStmt = con.prepareStatement(
-                "SELECT * from User WHERE username=?");
+                "SELECT * from user WHERE username=?");
             pStmt.setString(1, queriedUser);
 
             ResultSet rs = pStmt.executeQuery();
@@ -53,7 +54,7 @@ public class DatabaseManager {
     public boolean checkPasswd(String user, String attmPasswd){
         try{
             PreparedStatement pStmt = con.prepareStatement(
-            "Select passwd from User WHERE username=?"); 
+            "Select passwd from user WHERE username=?"); 
             pStmt.setString(1, user);
             ResultSet rs = pStmt.executeQuery();
             if(rs.next()){
@@ -71,6 +72,20 @@ public class DatabaseManager {
         }
     }
 
+    public void storeMessage(String message, String sender){
+        try{
+            PreparedStatement pStmt = con.prepareStatement(
+                "INSERT INTO message (message_user_id, message_content)" +
+                "VALUES (?, ?)"
+            );
+            pStmt.setString(1, sender);
+            pStmt.setString(2, message);
+            pStmt.executeQuery();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
     //Open connection to the database
     public int open(){
         try{
@@ -78,7 +93,7 @@ public class DatabaseManager {
             return 0;
         }catch(Exception e){
             if(e instanceof java.sql.SQLNonTransientConnectionException ){
-                System.err.println("Databse connection failure");
+                System.err.println("Database connection failure");
                 e.printStackTrace();
             }else{
                 e.printStackTrace();
@@ -96,7 +111,20 @@ public class DatabaseManager {
         }
     }
 
-    public Boolean getConSucess(){
+    public Boolean getConSuccess(){
         return conSuccess;
+    }
+
+    public ResultSet lastFifty(){
+        try{
+            PreparedStatement pStmt = con.prepareStatement(
+                "SELECT * FROM (SELECT * FROM message ORDER BY message_id DESC"+
+                " LIMIT 50) sub ORDER BY message_id ASC"
+            );
+            return pStmt.executeQuery();
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 }

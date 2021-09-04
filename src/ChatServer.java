@@ -1,4 +1,7 @@
 import java.io.*;
+import java.sql.ResultSet;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import javax.net.ssl.*;
 
@@ -48,15 +51,19 @@ public class ChatServer {
         private PrintWriter output;
         private String username; 
         private DatabaseManager dbm;
+        private DateTimeFormatter dtf = DateTimeFormatter.ofPattern(
+            "dd/MM/yy HH:mm:ss");
+        private LocalDateTime now;
 
         public ClientHandler(SSLSocket socket) throws Exception{
             try{
                 input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 output = new PrintWriter(socket.getOutputStream(),true);
                 dbm = new DatabaseManager();
-                if(dbm.getConSucess() == false){
+                if(dbm.getConSuccess() == false){
                     send("Server cant connect to database");
                 }
+                now = LocalDateTime.now();
             }catch (Exception e){
                 if(e instanceof java.sql.SQLNonTransientConnectionException){
                     send("Server Error: Could not connect to database");
@@ -80,8 +87,11 @@ public class ChatServer {
                 username = authenticate();
                 send("Welcome ! you are " + this);
                 sendAll("User \'" + username + "\' joined server",this);
+                missedMessages();
                 String line;
                 while((line = input.readLine()) != null){
+                    dbm.storeMessage(line, this.toString());
+                    line = dtf.format(now) + "] " + line ;
                     sendAll(line,this);
                 }
             } catch (Exception e){
@@ -119,6 +129,18 @@ public class ChatServer {
                 throw new InvalidCredentials("Invalid credentials");
             }
             return user;
+        }
+
+        public void missedMessages(){
+            try{
+                ResultSet rs = dbm.lastFifty(); 
+                while(rs.next()){
+                    send(rs.getString(3) + ": " + rs.getDate(2) + " " + 
+                    rs.getTime(2) + "] " + rs.getString(4));
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
     }
 }
