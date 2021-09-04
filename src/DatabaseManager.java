@@ -34,7 +34,7 @@ public class DatabaseManager {
     public String findUser(String queriedUser){
         try{
             PreparedStatement pStmt = con.prepareStatement(
-                "SELECT * from User WHERE username=?");
+                "SELECT * from user WHERE username=?");
             pStmt.setString(1, queriedUser);
 
             ResultSet rs = pStmt.executeQuery();
@@ -53,7 +53,7 @@ public class DatabaseManager {
     public boolean checkPasswd(String user, String attmPasswd){
         try{
             PreparedStatement pStmt = con.prepareStatement(
-            "Select passwd from User WHERE username=?"); 
+            "Select passwd from user WHERE username=?"); 
             pStmt.setString(1, user);
             ResultSet rs = pStmt.executeQuery();
             if(rs.next()){
@@ -68,6 +68,20 @@ public class DatabaseManager {
         }catch(Exception e){
             e.printStackTrace();
             return false;
+        }
+    }
+
+    public void storeMessage(String message, String sender){
+        try{
+            PreparedStatement pStmt = con.prepareStatement(
+                "INSERT INTO message (message_user_id, message_content)" +
+                "VALUES (?, ?)"
+            );
+            pStmt.setString(1, sender);
+            pStmt.setString(2, message);
+            pStmt.executeQuery();
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 
