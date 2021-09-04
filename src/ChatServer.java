@@ -50,6 +50,7 @@ public class ChatServer {
         private BufferedReader input;
         private PrintWriter output;
         private String username; 
+        private String password;
         private DatabaseManager dbm;
         private DateTimeFormatter dtf = DateTimeFormatter.ofPattern(
             "dd/MM/yy HH:mm:ss");
@@ -84,7 +85,9 @@ public class ChatServer {
         public void run(){
             try{
                 System.err.println("Accepted connection on port " + this);
-                username = authenticate();
+                username = input.readLine();
+                password = input.readLine();
+                authenticate(username, password);
                 send("Welcome ! you are " + this);
                 sendAll("User \'" + username + "\' joined server",this);
                 missedMessages();
@@ -105,30 +108,13 @@ public class ChatServer {
             }
         }
 
-        public String authenticate() throws Exception{
-            String user = "";
-            String password = "";
-            int attempts = 0;
-            while(attempts <= 4 ){
-                send("Enter User:");
-                user = input.readLine();
-                send("Enter Password:");
-                password = input.readLine();
-                if(dbm.findUser(user) != null && 
-                    dbm.checkPasswd(user,password)){
-                        break;
-                }else {
-                    send("Username and password dont match");
-                    attempts++;
+        public void authenticate(String username, String password) throws Exception{
+            if(dbm.findUser(username) == null ||
+                dbm.checkPasswd(username, password) == false){
+                    dbm.close();
+                    send("Invalid username and password");
+                    throw new InvalidCredentials("Invalid credentials");
                 }
-            }
-            if(attempts >= 5){
-                dbm.close();
-                send("To many invalid attempts " +
-                    "Connection closed, restart client to retry");
-                throw new InvalidCredentials("Invalid credentials");
-            }
-            return user;
         }
 
         public void missedMessages(){
