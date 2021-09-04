@@ -87,11 +87,11 @@ public class ChatServer {
                 username = authenticate();
                 send("Welcome ! you are " + this);
                 sendAll("User \'" + username + "\' joined server",this);
-                dbm.lastFifty();
+                missedMessages();
                 String line;
                 while((line = input.readLine()) != null){
                     dbm.storeMessage(line, this.toString());
-                    line = dtf.format(now) + " " + line ;
+                    line = dtf.format(now) + "] " + line ;
                     sendAll(line,this);
                 }
             } catch (Exception e){
@@ -132,7 +132,15 @@ public class ChatServer {
         }
 
         public void missedMessages(){
-           ResultSet rs = dbm.lastFifty(); 
+            try{
+                ResultSet rs = dbm.lastFifty(); 
+                while(rs.next()){
+                    send(rs.getString(3) + ": " + rs.getDate(2) + " " + 
+                    rs.getTime(2) + "] " + rs.getString(4));
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
     }
 }
