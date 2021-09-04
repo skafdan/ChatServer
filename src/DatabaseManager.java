@@ -2,6 +2,7 @@ import java.sql.*;
 import java.io.*;
 import java.util.*;
 
+
 public class DatabaseManager {
     private Connection con;
     private String host;
@@ -112,5 +113,18 @@ public class DatabaseManager {
 
     public Boolean getConSuccess(){
         return conSuccess;
+    }
+
+    public ResultSet lastFifty(){
+        try{
+            PreparedStatement pStmt = con.prepareStatement(
+                "SELECT * FROM (SELECT * FROM message ORDER BY message_id DESC"+
+                " LIMIT 50) sub ORDER BY message_id ASC"
+            );
+            return pStmt.executeQuery();
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 }
