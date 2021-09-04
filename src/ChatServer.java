@@ -84,9 +84,9 @@ public class ChatServer {
 
         public void run(){
             try{
-                System.err.println("Accepted connection on port " + this);
                 username = input.readLine();
                 password = input.readLine();
+                System.err.println("Accepted connection from " + this);
                 authenticate(username, password);
                 send("Welcome ! you are " + this);
                 sendAll("User \'" + username + "\' joined server",this);
