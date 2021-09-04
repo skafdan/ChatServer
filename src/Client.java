@@ -1,20 +1,9 @@
-import java.io.File;
-import java.security.KeyManagementException;
-import java.security.KeyStore;
+import java.io.*;
+import java.security.*;
+import javax.net.ssl.*;
+import java.net.*;
 
-import javax.net.ssl.KeyManagerFactory;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocket;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.TrustManagerFactory;
-
-import java.io.InputStream;
-import java.io.PrintWriter;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
+import java.nio.file.*;
 
 public class Client {
     //SSL
