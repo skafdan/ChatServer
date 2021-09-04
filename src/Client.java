@@ -10,6 +10,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -25,6 +26,10 @@ public class Client {
             DownloadKey(host);
             SSLSocketFactory factory = SSLFactoryBootstrapper();
             SSLSocket sslSocket = (SSLSocket) factory.createSocket(host,port);
+            PrintWriter sender = new PrintWriter(sslSocket.getOutputStream(),true);
+            //Send username and password
+            sender.println(args[2]);
+            sender.println(args[3]);
             System.err.println("Connected to " + host + " on port" + port);
             new ReadWriteThread(System.in, sslSocket.getOutputStream(),"").start();
             new ReadWriteThread(sslSocket.getInputStream(), System.out,"--> ").start();
@@ -33,7 +38,8 @@ public class Client {
                 System.err.println("Cant connect to address");
             }else if(e instanceof java.lang.NumberFormatException
             || e instanceof java.lang.ArrayIndexOutOfBoundsException ){
-                System.err.println("Usage: java -jar Client.jar <port> <host>");
+                System.err.println(
+                "Usage: java -jar Client.jar <port> <host> <user> <password>");
             }else{
                 e.printStackTrace();
             }
