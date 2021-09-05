@@ -1,4 +1,5 @@
 import java.io.*;
+import java.security.MessageDigest;
 import java.sql.ResultSet;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -87,7 +88,7 @@ public class ChatServer {
                 username = input.readLine();
                 password = input.readLine();
                 System.err.println("Accepted connection from " + this);
-                authenticate(username, password);
+                authenticate(username, hasher(password,dbm.getSalt(username)));
                 send("Welcome ! you are " + this);
                 sendAll("User \'" + username + "\' joined server",this);
                 missedMessages();
@@ -126,6 +127,17 @@ public class ChatServer {
                 }
             }catch (Exception e){
                 e.printStackTrace();
+            }
+        }
+        public String hasher(String passwd, String salt){
+            try{
+                String passwd_plus_hash = passwd+salt;
+                MessageDigest md = MessageDigest.getInstance("SHA-256");
+                byte[] bytes = md.digest(passwd_plus_hash.getBytes());
+                return new String(bytes);
+            }catch (Exception e){
+                e.printStackTrace();
+                return null;
             }
         }
     }
