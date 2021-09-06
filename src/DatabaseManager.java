@@ -127,4 +127,22 @@ public class DatabaseManager {
             return null;
         }
     }
+
+    public String getSalt(String user){
+        try{
+            PreparedStatement pStmt = con.prepareStatement(
+                "SELECT salt FROM user WHERE username=?"
+            );
+            pStmt.setString(1,user);
+            ResultSet rs = pStmt.executeQuery();
+            if(rs.next()){
+                return rs.getString(1);
+            }else{
+                return null;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
