@@ -42,3 +42,12 @@ It can also be run with an optional port number, however it will use the port `7
 
 The script generates the TLS certificate and copies it the to default root of the 
 webserver `/var/www/html/` to be downloaded by the client when they connect.
+
+### data.properties
+The authentication and address for the database are imported using java properties library, as such
+a `data.properties` file with 3 key-value pairs needs to be in the root directory of the project
+```
+host=jdbc::mysql://<address>/chatserver
+username=<username>
+password=<password>
+```
