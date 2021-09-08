@@ -16,7 +16,7 @@ Install all the required dependencies and run this command to link the mariadb-j
 ```
 # ln -s /usr/share/java/mariadb-jdbc/mariadb-java-client.jar /usr/lib/jvm/default-runtime/jre/lib/ext
 ```
-If you downloaded the `mariadb-jdbc` connecter manually place it into directory first.
+If you downloaded the `mariadb-jdbc` connecter manually place it into this directory first.
 ```
 /usr/share/java/mariadb-jdbc/mysql-connector-java-bin-2.7.3.jar
 ```
