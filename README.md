@@ -58,7 +58,7 @@ password=<password>
 
 The database requires two tables;
 - `user` - A table for users of the database
-    - Columuns:
+    - Columns:
         - username: Unique name of the user (Primary-Key)
         - passwd: sha256 hashed password+salt
         - salt: created at time of user creation
