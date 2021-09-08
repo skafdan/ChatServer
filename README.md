@@ -52,3 +52,19 @@ host=jdbc::mysql://<address>/chatserver
 username=<username>
 password=<password>
 ```
+
+## Database setup
+
+
+The database requires two tables;
+- `user` - A table for users of the database
+    - Columuns:
+        - username: Unique name of the user (Primary-Key)
+        - passwd: sha256 hashed password+salt
+        - salt: created at time of user creation
+- `message` - A table containing log of messages sent
+    - Columns:
+        - timestamp: uses `now()` function to timestamp messages
+        - message_id: auto-incrementing id of the message (Primary-key)
+        - message_user_id: sender of message also (Foreign-Key to `user` table)
+        - message_content: the message content
