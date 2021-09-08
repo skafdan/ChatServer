@@ -16,6 +16,10 @@ Install all the required dependencies and run this command to link the mariadb-j
 ```
 # ln -s /usr/share/java/mariadb-jdbc/mariadb-java-client.jar /usr/lib/jvm/default-runtime/jre/lib/ext
 ```
+If you downloaded the `mariadb-jdbc` connecter manually place it into directory first.
+```
+/usr/share/java/mariadb-jdbc/mysql-connector-java-bin-2.7.3.jar
+```
 
 Git clone the repository and run the make command.
 ```
@@ -25,10 +29,7 @@ $ cd /path/to/ChatServer
 
 $ make
 ```
-If you downloaded the `mariadb-jdbc` connecter manually place it into 
-```
-/usr/share/java/mariadb-jdbc/mysql-connector-java-bin-2.7.3.jar
-```
+
 ## Usage
 Run the installation script `startServer.sh` as root.
 ```
