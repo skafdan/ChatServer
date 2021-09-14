@@ -4,6 +4,10 @@ import java.sql.*;
 import java.security.*;
 
 public class adminTester{
+    /**
+     *  Adds new users to the database for testing purposes 
+     * @param args username, password of new user to register
+     */
     public static void main(String[] args){
         try {
             Properties prop = new Properties();
@@ -28,7 +32,10 @@ public class adminTester{
             e.printStackTrace();
         }
     }
-
+    /**
+     * Generates a salt to append to password
+     * @return String salt
+     */
     public static String salt(){
         try{
             SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
@@ -40,7 +47,12 @@ public class adminTester{
             return null;
         }
     }
-
+    /**
+     * Hashes password using SHA-256
+     * @param passwd String password to hash
+     * @param salt String salt to append
+     * @return String hashed-password
+     */
     public static String sha(String passwd, String salt){
         try{
             String passwd_plus_hash = passwd+salt;
