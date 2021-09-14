@@ -10,8 +10,9 @@ public class DatabaseManager {
     private String pass;
     private Boolean conSuccess;
 
-    //MariaDB
-    //https://docs.cs.cf.ac.uk/notes/accessing-mysql-with-java/
+    /**
+     * Connects to database using data.properties file.
+     */
     public DatabaseManager(){
         try{
             Properties prop = new Properties();
@@ -31,7 +32,11 @@ public class DatabaseManager {
         }
     } 
 
-    //Search for a username
+    /**
+     * Checks a user actually exists in the database. Returns the username
+     * @param queriedUser User to search for
+     * @return String username, null if not found.
+     */
     public String findUser(String queriedUser){
         try{
             PreparedStatement pStmt = con.prepareStatement(
@@ -50,7 +55,12 @@ public class DatabaseManager {
         }
     }
 
-    //Check passed password equals stored password in database
+    /**
+     * Checks the password against stored hash
+     * @param user username
+     * @param attmPasswd attempted password
+     * @return returns a boolean true or false if a match.
+     */
     public boolean checkPasswd(String user, String attmPasswd){
         try{
             PreparedStatement pStmt = con.prepareStatement(
@@ -71,7 +81,11 @@ public class DatabaseManager {
             return false;
         }
     }
-
+    /**
+     * Store a message in the database.
+     * @param message String message being sent.
+     * @param sender String username of sender.
+     */
     public void storeMessage(String message, String sender){
         try{
             PreparedStatement pStmt = con.prepareStatement(
@@ -86,7 +100,10 @@ public class DatabaseManager {
         }
     }
 
-    //Open connection to the database
+    /**
+     * Open a connection to the database
+     * @return int 0 if successful, anything else is an error.
+     */
     public int open(){
         try{
             con=DriverManager.getConnection(host,user,pass);
@@ -101,8 +118,9 @@ public class DatabaseManager {
             return 1;
         }
     }
-
-    //Close the connection to the database
+    /**
+     * Close the database connection
+     */
     public void close(){
         try{
             con.close(); 
@@ -110,11 +128,16 @@ public class DatabaseManager {
             e.printStackTrace();
         }
     }
-
+    /**
+     * Test connection
+     */
     public Boolean getConSuccess(){
         return conSuccess;
     }
-
+    /**
+     * Returns the last fifty messages stored in the database, in a result set.
+     * @return Result set.
+     */
     public ResultSet lastFifty(){
         try{
             PreparedStatement pStmt = con.prepareStatement(
@@ -127,7 +150,11 @@ public class DatabaseManager {
             return null;
         }
     }
-
+    /**
+     * Get the salt of a user
+     * @param user Username
+     * @return String salt.
+     */
     public String getSalt(String user){
         try{
             PreparedStatement pStmt = con.prepareStatement(
