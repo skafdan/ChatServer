@@ -6,8 +6,10 @@ import java.net.*;
 import java.nio.file.*;
 
 public class Client {
-    //SSL
-    //https://stackoverflow.com/questions/13874387/create-app-with-sslsocket-java
+    /**
+     * Connects to ChatServer.
+     * @param args port host username password.
+     */
     public static void main(String[] args){
         try{
             int port = Integer.parseInt(args[0]);
@@ -35,7 +37,11 @@ public class Client {
                 System.exit(1); 
         }
     }
-    //https://www.techiedelight.com/download-file-from-url-java/
+    /**
+     * Downloads the SSL certificate from the web-server.
+     * @param host String host of server.
+     * @throws Exception java.net.ConnectException
+     */
     public static void DownloadKey(String host) throws Exception{
         try{
             File file = new File("./yourKEYSTORE");
@@ -54,6 +60,10 @@ public class Client {
            e.printStackTrace(); 
         }
     }
+    /**
+     * Creates the SSLSocketFactory using the SSL certificate.
+     * @return SSLSocketFactory
+     */
     public static SSLSocketFactory SSLFactoryBootstrapper(){
         try{
             final char[] password = "quack1nce4^".toCharArray();
