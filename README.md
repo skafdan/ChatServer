@@ -68,3 +68,16 @@ The database requires two tables;
         - message_id: auto-incrementing id of the message (Primary-key)
         - message_user_id: sender of message also (Foreign-Key to `user` table)
         - message_content: the message content
+
+## References to resources used
+- [SSLSockets - Stackoverflow](https://stackoverflow.com/questions/13874387/create-app-with-sslsocket-java)
+
+- [HTTP requests java](https://www.techiedelight.com/download-file-from-url-java)
+
+- [Java docs - SSL](https://docs.oracle.com/javase/8/docs/technotes/guides/security/jsse/JSSERefGuide.html)
+
+- [Java docs - SQL](https://dev.mysql.com/doc/connector-j/8.0/en/)
+
+- [MariaDB JDBC - Arch Wiki](https://wiki.archlinux.org/title/JDBC_and_MySQL)
+
+- [MariaDB JDBC](https://docs.cs.cf.ac.uk/notes/accessing-mysql-with-java/)
