@@ -1,10 +1,12 @@
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.sql.ResultSet;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import javax.net.ssl.*;
+import java.math.*;
 
 public class ChatServer {
     private static List<ClientHandler> clients = new LinkedList<ClientHandler>();
@@ -164,14 +166,22 @@ public class ChatServer {
          */
         public String hasher(String passwd, String salt){
             try{
-                String passwd_plus_hash = passwd+salt;
+                String saltedPassword = passwd+salt;
                 MessageDigest md = MessageDigest.getInstance("SHA-256");
-                byte[] bytes = md.digest(passwd_plus_hash.getBytes());
-                return new String(bytes);
-            }catch (Exception e){
+                byte[] hash = md.digest(saltedPassword.getBytes(
+                     StandardCharsets.UTF_8));
+                BigInteger number = new BigInteger(1, hash); 
+
+                StringBuilder hexString = new StringBuilder(number.toString(16));
+                while(hexString.length() < 32){
+                    hexString.insert(0,'0');
+                }
+
+                return hexString.toString();
+            }catch(Exception e){
                 e.printStackTrace();
                 return null;
-            }
+           }
         }
     }
 }
