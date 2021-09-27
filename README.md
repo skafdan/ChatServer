@@ -33,12 +33,12 @@ $ make
 ## Usage
 Run the installation script `startServer.sh` as root.
 ```
-/path/to/ChatServer/ # ./startServer.sh
+# /path/to/ChatServer/startServer.sh
 ```
 It can also be run with an optional port number, however it will use the port `7777`  if not provided.
 
 ```
-/path/to/ChatServer/ # ./startServer.sh [port]
+# /path/to/ChatServer/startServer.sh [port]
 ```
 
 The script generates the TLS certificate and copies it the to default root of the 
